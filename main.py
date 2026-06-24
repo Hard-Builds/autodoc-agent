@@ -1,5 +1,6 @@
 import argparse
 import asyncio
+import os
 
 from langgraph.checkpoint.sqlite.aio import AsyncSqliteSaver
 
@@ -57,4 +58,5 @@ async def main():
             await update_mode(graph, thread_id)
 
 if __name__ == "__main__":
+    print("Envs: ", os.getenv("LANGSMITH_TRACING"))
     asyncio.run(main())
