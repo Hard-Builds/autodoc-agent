@@ -75,7 +75,6 @@ async def comment_analysis(state: AgentState):
         f"**Architecturally significant**: Yes\n\n"
         f"**Reasoning**: {state['reasoning']}\n\n"
         f"**Affected components**: {components}\n\n"
-        f"---\nComment `/approve-autodoc` to update `ARCHITECTURE.md`."
     )
     _ = await comment_tool.ainvoke({
         "method": "create",
@@ -83,7 +82,7 @@ async def comment_analysis(state: AgentState):
         "repo": state["repo_name"],
         "pullNumber": state["pr_number"],
         "body": body,
-        "event": "COMMENT"
+        "event": "REQUEST_CHANGES"
     })
     return {}
 
