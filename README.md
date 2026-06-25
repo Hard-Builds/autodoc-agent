@@ -21,32 +21,20 @@ AutoDoc Agent monitors pull requests and automatically:
 ## Agent graph
 
 ```mermaid
----
-config:
-  flowchart:
-    curve: linear
----
-graph TD;
-    __start__([<p>__start__</p>]):::first
-    fetch(fetch)
-    analysis(analysis)
-    pr_review(pr_review<hr/><small><em>__interrupt = after</em></small>)
-    output(output)
-    resolve_pr_review(resolve_pr_review)
-    tools(tools)
-    __end__([<p>__end__</p>]):::last
-    __start__ --> fetch;
-    analysis -. &nbsp;False&nbsp; .-> __end__;
-    analysis -. &nbsp;True&nbsp; .-> pr_review;
-    fetch --> analysis;
-    output -.-> resolve_pr_review;
-    output -.-> tools;
-    pr_review --> output;
-    tools --> output;
-    resolve_pr_review --> __end__;
-    classDef default fill:#f2f0ff,line-height:1.2
-    classDef first fill-opacity:0
-    classDef last fill:#bfb6fc
+flowchart TD
+    A([__start__]) --> B[fetch]
+    B --> C[analysis]
+
+    C -->|is_significant: true| D[pr_review\n__interrupt = after]
+    C -->|is_significant: false| Z([__end__])
+
+    D --> E[output]
+
+    E -->|tool call| F[tools]
+    E -->|done| G[resolve_pr_review]
+
+    F --> E
+    G --> Z
 ```
 
 ## Sample output
